@@ -15,47 +15,47 @@ disp('Local data read!')
 fprintf('\n-Comedy films: %i',sum(y==0))
 fprintf('\n-Drama  films: %i\n\n',sum(y==1))
 
-% %% Feature Extraction Stage
-% disp('Feature Extraction Stage in progress...')
-% % Creating empy array of features
-% features = zeros(length(Xtrain),5);
-% 
-% %% Visual Feature Extraction
-% disp('Extracting visual features...')
-% for i = 1:length(Xtrain)
-%     
-%     % Select current image
-%     I = .. ;
-%     
-%     %%% Feature 1: Dominant Colours
-%     % Convert I to HSV image
-%     HSV = .. ;
-%     % Select Hue component
-%     H = .. ;
-%     % Obtain the variability in colour (entropy)
-%     colour_entropy = .. ;
-%     % Save feature
-%     features(i,1) = colour_entropy ;
-%     
-%     %%% Feature 2: Brightness
-%     % Extract the Value channel from HSV image
-%     V = .. ;
-%     % Obtain the mean value of the Value channel
-%     brightness = .. ;
-%     % Save feature
-%     features(i,2) = brightness ;
-%     
-%     %%% Feature 3: Edges
-%     % Convert I to gray-scale image
-%     Ig = .. ;
-%     % Obtain edge image using the Sobel filter
-%     BW = .. ;
-%     % Get the amount of edges in the BW image
-%     edge_quantity = .. ;
-%     % Save feature
-%     features(i,3) = edge_quantity ;    
-%   
-% end
+%% Feature Extraction Stage
+disp('Feature Extraction Stage in progress...')
+% Creating empy array of features
+features = zeros(length(Xtrain),5);
+ 
+%% Visual Feature Extraction
+disp('Extracting visual features...')
+for i = 1:length(Xtrain)
+     
+    % Select current image
+    I = Xtrain{i,1} ;
+     
+    %%% Feature 1: Dominant Colours
+    % Convert I to HSV image
+    HSV = rgb2hsv(I) ;
+    % Select Hue component
+    H = HSV(1) ;
+    % Obtain the variability in colour (entropy)
+    colour_entropy = entropy(H) ;
+    % Save feature
+    features(i,1) = colour_entropy ;
+    
+    %%% Feature 2: Brightness
+    % Extract the Value channel from HSV image
+    V = HSV(3) ;
+    % Obtain the mean value of the Value channel
+    brightness = mean(V) ;
+    % Save feature
+    features(i,2) = brightness ;
+    
+    %%% Feature 3: Edges
+    % Convert I to gray-scale image
+    Ig = rgb2gray(I) ;
+    % Obtain edge image using the Sobel filter
+    BW = edge(Ig, 'Sobel') ;
+    % Get the amount of edges in the BW image
+    edge_quantity = sum(BW(:)) ;
+    % Save feature
+    features(i,3) = edge_quantity ;    
+  
+end
 % 
 % %% Textual Feature Extraction
 % disp('Extracting textual features...')
