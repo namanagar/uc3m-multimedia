@@ -31,7 +31,7 @@ for i = 1:length(Xtrain)
     % Convert I to HSV image
     HSV = rgb2hsv(I) ;
     % Select Hue component
-    H = HSV(1) ;
+    H = HSV(:,:,1) ;
     % Obtain the variability in colour (entropy)
     colour_entropy = entropy(H) ;
     % Save feature
@@ -39,7 +39,7 @@ for i = 1:length(Xtrain)
     
     %%% Feature 2: Brightness
     % Extract the Value channel from HSV image
-    V = HSV(3) ;
+    V = HSV(:,:,3) ;
     % Obtain the mean value of the Value channel
     brightness = mean(V) ;
     % Save feature
