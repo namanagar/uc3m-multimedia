@@ -19,19 +19,19 @@ fprintf('\n-Drama  films: %i\n\n',sum(y==1))
 disp('Feature Extraction Stage in progress...')
 % Creating empy array of features
 features = zeros(length(Xtrain),5);
- 
+
 %% Visual Feature Extraction
 disp('Extracting visual features...')
 for i = 1:length(Xtrain)
-     
+    
     % Select current image
     I = Xtrain{i,1} ;
-     
     %%% Feature 1: Dominant Colours
     % Convert I to HSV image
-    HSV = rgb2hsv(I) ;
+    HSV = rgb2hsv(I);
+    
     % Select Hue component
-    H = HSV(:,:,1) ;
+    H = HSV(:,:,1);
     % Obtain the variability in colour (entropy)
     colour_entropy = entropy(H) ;
     % Save feature
@@ -39,9 +39,9 @@ for i = 1:length(Xtrain)
     
     %%% Feature 2: Brightness
     % Extract the Value channel from HSV image
-    V = HSV(:,:,3) ;
+    V = HSV(:,:,3);
     % Obtain the mean value of the Value channel
-    brightness = mean(V) ;
+    brightness = mean(V(:));
     % Save feature
     features(i,2) = brightness ;
     
@@ -49,76 +49,77 @@ for i = 1:length(Xtrain)
     % Convert I to gray-scale image
     Ig = rgb2gray(I) ;
     % Obtain edge image using the Sobel filter
-    BW = edge(Ig, 'Sobel') ;
+    BW = edge(Ig, 'Sobel');
     % Get the amount of edges in the BW image
-    edge_quantity = sum(BW(:)) ;
+    edge_quantity = sum(BW(:));
     % Save feature
     features(i,3) = edge_quantity ;    
   
 end
-% 
-% %% Textual Feature Extraction
-% disp('Extracting textual features...')
-% for i = 1:length(Xtrain)
-%     
-%     % Select current text
-%     T = .. ;
-%     % Tokenize document (separate into words)
-%     words = obtain_word_array(T);
-%     
-%     %%% Feature 4: Number of words
-%     % Obtain the number of words (tokens)
-%     num_words = .. ;
-%     % Save feature
-%     features(i,4) = num_words ;  
-%     
-%     %%% Feature 5: Length of words
-%     % Obtain the length of each word in the description
-%     word_lengths = .. ;
-%     % Obtain the mean length of the words in the description
-%     mean_word_length = .. ;
-%     % Save feature
-%     features(i,5) = mean_word_length; 
-% 
-% end
-% disp('Feature Extraction complete!')
-% 
-% %% Normalization Stage
-% disp('Normalization Stage in progress...')
-% % Obtain the mean of each feature
-% feat_mean = .. ;
-% % Obtain the standard deviation of each feature
-% feat_std  = .. ;
-% % Normalize the extracted features
-% features_n = .. ;
-% 
-% % Check if normalization was correctly implemented (VERY IMPORTANT)
-% % If normalization was correctly implemented, running the line below should
-% % print the message saying so.
-% check_normalization(features_n);
-% 
-% %% Feature Visualization
-% % Select pair of features to visualize:
-% %   -1: Colour
-% %   -2: Brightness
-% %   -3: Edges
-% %   -4: Word number
-% %   -5: Word length
-% feat_a = .. ;
-% feat_b = .. ;
-% % Plot feature values in scatter diagram
-% figure()
-% visualize_features(features_n, Ytrain, feat_a, feat_b)
-% 
-% %% Training Stage
-% disp('Training Stage in progress...')
-% % Train model with all features available
-% model = fit_gaussian(features_n,Ytrain);
-% % Train model with just visual  features
-% visual_model = fit_gaussian(features_n(:,[1 2 3]),Ytrain);
-% % Train model with just textual features
-% textual_model = fit_gaussian(features_n(:,[4 5]),Ytrain);
-% disp('Training completed!')
+
+%% Textual Feature Extraction
+disp('Extracting textual features...')
+for i = 1:length(Xtrain)
+    
+    % Select current text
+    T = Xtrain{i, 2};
+    % Tokenize document (separate into words)
+    words = obtain_word_array(T);
+    
+    %%% Feature 4: Number of words
+    % Obtain the number of words (tokens)
+    num_words = length(words);
+    % Save feature
+    features(i,4) = num_words ;  
+    
+    %%% Feature 5: Length of words
+    % Obtain the length of each word in the description
+    
+    word_lengths = strlength(words) ;
+    % Obtain the mean length of the words in the description
+    mean_word_length = mean(word_lengths);
+    % Save feature
+    features(i,5) = mean_word_length; 
+
+end
+disp('Feature Extraction complete!')
+
+%% Normalization Stage
+disp('Normalization Stage in progress...')
+% Obtain the mean of each feature
+feat_mean = mean(features);
+% Obtain the standard deviation of each feature
+feat_std  = std(features);
+% Normalize the extracted features
+features_n = (features-feat_mean)./feat_std;
+
+% Check if normalization was correctly implemented (VERY IMPORTANT)
+% If normalization was correctly implemented, running the line below should
+% print the message saying so.
+check_normalization(features_n);
+
+%% Feature Visualization
+% Select pair of features to visualize:
+%   -1: Colour
+%   -2: Brightness
+%   -3: Edges
+%   -4: Word number
+%   -5: Word length
+feat_a = 1;
+feat_b = 4;
+% Plot feature values in scatter diagram
+figure()
+visualize_features(features_n, Ytrain, feat_a, feat_b)
+
+%% Training Stage
+disp('Training Stage in progress...')
+% Train model with all features available
+model = fit_gaussian(features_n,Ytrain);
+% Train model with just visual  features
+visual_model = fit_gaussian(features_n(:,[1 2 3]),Ytrain);
+% Train model with just textual features
+textual_model = fit_gaussian(features_n(:,[4 5]),Ytrain);
+disp('Training completed!')
 % 
 % %% Test Stage
 % disp('Testing Stage in progress...')
