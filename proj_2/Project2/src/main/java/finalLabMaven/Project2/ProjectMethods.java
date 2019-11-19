@@ -1,4 +1,4 @@
-package finalLabMaven.maven;
+package finalLabMaven.Project2;
 import java.io.IOException;
 
 import org.jsoup.Jsoup;

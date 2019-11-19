@@ -1,4 +1,4 @@
-package finalLabMaven.maven;
+package finalLabMaven.Project2;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

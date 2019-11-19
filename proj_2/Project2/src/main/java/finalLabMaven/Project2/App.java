@@ -1,4 +1,4 @@
-package finalLabMaven.maven;
+package finalLabMaven.Project2;
 
 /**
  * Hello world!
