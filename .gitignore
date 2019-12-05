@@ -1,3 +1,4 @@
 *.mat
 proj_1/data/*
 proj_2/.idea/*
+/.metadata/
