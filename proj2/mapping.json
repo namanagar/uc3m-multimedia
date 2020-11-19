@@ -1,0 +1,16 @@
+{
+  "properties": {
+    "title": { "type": "text" },
+    "summary": { "type": "text" },
+    "country": { "type": "text" },
+    "director": { "type": "keyword" },
+    "genres": { "type": "text" },
+    "keywords": { "type": "text" },
+    "year": { "type": "integer" }
+  }
+}
+
+
+curl -XPOST localhost:9200/_bulk --data-binary @blah.json -H 'Content-Type: application/json'
+
+gsed -e 's/^/{ "index" : {} }\n/' -i products.json

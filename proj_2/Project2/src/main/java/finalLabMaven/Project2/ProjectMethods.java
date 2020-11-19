@@ -100,7 +100,7 @@ public class ProjectMethods {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		BufferedReader in = new BufferedReader(new FileReader("/Users/justinspar/Desktop/uc3m-multimedia/proj_2/Project2/src/main/java/finalLabMaven/Project2/movies.txt"));
+		BufferedReader in = new BufferedReader(new FileReader("./movies.txt"));
 		
 		String line;
 		
